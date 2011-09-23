@@ -1,0 +1,12 @@
+This is a project I use as basis to test various concepts.
+
+Surely the codebase won't reflect a real example (otherwise I would be rich). 
+
+The idea is a centralized interest points service.
+
+The system would allow a user to find all interest points around him if provided with a location.
+
+Interest points include : pubs, restaurant, museums, taxi stations, subway stations 
+   
+
+
