@@ -24,13 +24,13 @@ scenario "finding interest points around me should succeed" , {
 
     and "I provide the location '10 bd haussmann, 75009 paris'", { location ="10 bd haussmann, 75009 paris" }
     
-    and "I send 'application/xml'", {
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED)
+    and "I send 'application/x-www-form-urlencoded'", {
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED)
     }
     
-    and "I receive 'application/xml'", {
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML))
-//        headers.setAcceptCharset(Arrays.asList(MappingJacksonHttpMessageConverter.DEFAULT_CHARSET))
+    and "I receive 'application/json'", {
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON))
+        headers.setAcceptCharset(Arrays.asList(MappingJacksonHttpMessageConverter.DEFAULT_CHARSET))
     }
     
     when "I ask for interest points around that location", {
@@ -76,7 +76,7 @@ scenario "finding interest points around me should succeed" , {
         Assert.assertEquals(9, results. findAll {it.type == "PUB" }.size())
     }
     
-    and "The response should include 2 subway station", {
+    and "The response should include 2 subway stations", {
         Assert.assertTrue(responseEntity.hasBody())
         Assert.assertNotNull(responseEntity.getBody())
         results = responseEntity.getBody()

@@ -11,32 +11,11 @@
 
 	<context:component-scan base-package="org.diveintojee" />
 
-	<mvc:annotation-driven />
-
 	<bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 
+	<mvc:annotation-driven/>
+
 	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean
-					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.StringHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.FormHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.ResourceHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-			</list>
-		</property>
-	</bean>
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
 </beans>
