@@ -453,8 +453,8 @@
 					</executions>
 					<configuration>
 						<easybTestDirectory>${basedir}/src/test/stories</easybTestDirectory>
-						<storyReport>${project.build.directory}/easyb-stories.txt</storyReport>
-						<xmlReport>${project.build.directory}/easyb-report.xml</xmlReport>
+          <storyType>html</storyType>
+          <storyReport>${project.build.directory}/easyb/stories.html</storyReport>
 					</configuration>
 				</plugin>
 			</plugins>
