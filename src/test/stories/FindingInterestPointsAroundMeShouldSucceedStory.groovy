@@ -1,6 +1,4 @@
 import org.diveintojee.poc.domain.InterestPoint
-import org.diveintojee.poc.domain.InterestPointType
-import org.junit.Assert
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -19,10 +17,10 @@ scenario "finding interest points around me should succeed" , {
     def ResponseEntity<List<InterestPoint>> responseEntity
     def results
 
-    def streetAddress = "10%20bd%20haussmann"
-    def postalCode = "75009"
-    def city = "paris"
-    def countryCode = "fr"
+    def streetAddress
+    def postalCode
+    def city
+    def countryCode
     def requestContentType = "application/x-www-form-urlencoded"
     def responseContentType = "application/x-www-form-urlencoded"
     def expectedResultsCount = 21
@@ -32,7 +30,12 @@ scenario "finding interest points around me should succeed" , {
     
     given "I am a valid system user", {}
 
-    and "I provide the location '10 bd haussmann'", {}
+    and "I provide the location '10 bd haussmann'", {
+        streetAddress = "10%20bd%20haussmann"
+        postalCode = "75009"
+        city = "paris"
+        countryCode = "fr"
+    }
     
     and "I send ${requestContentType}", {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -60,37 +63,40 @@ scenario "finding interest points around me should succeed" , {
     }
     
     then "I should get a successfull response", {
-        Assert.assertNotNull(responseEntity)
-        Assert.assertNotNull(responseEntity.getStatusCode())
-        Assert.assertEquals(200, responseEntity.getStatusCode().value())
+        responseEntity.shouldNotBe null
+        responseEntity.getStatusCode().shouldNotBe null
+        responseEntity.getStatusCode().value().shouldEqual 200
     }
 
     and "The response should include ${expectedResultsCount} interest points", {
-        Assert.assertTrue(responseEntity.hasBody())
-        Assert.assertNotNull(responseEntity.getBody())
+        responseEntity.hasBody().shouldBe true
+        responseEntity.getBody().shouldNotBeNull
         results = responseEntity.getBody()
-        Assert.assertEquals(expectedResultsCount, results.size())
+        results.size().shouldEqual expectedResultsCount
     }
 
     and "The response should include ${expectedRestaurantsCount} restaurants", {
-        Assert.assertTrue(responseEntity.hasBody())
-        Assert.assertNotNull(responseEntity.getBody())
+        responseEntity.hasBody().shouldBe true
+        responseEntity.getBody().shouldNotBeNull
         results = responseEntity.getBody()
-        Assert.assertEquals(expectedRestaurantsCount, results. findAll {it.type == "RESTAURANT" }.size())
+        int filteredCount = results. findAll {it.type == "RESTAURANT" }.size() 
+        filteredCount.shouldEqual expectedRestaurantsCount
     }
     
     and "The response should include ${expectedPubsCount} pubs", {
-        Assert.assertTrue(responseEntity.hasBody())
-        Assert.assertNotNull(responseEntity.getBody())
+        responseEntity.hasBody().shouldBe true
+        responseEntity.getBody().shouldNotBeNull
         results = responseEntity.getBody()
-        Assert.assertEquals(expectedPubsCount, results. findAll {it.type == "PUB" }.size())
+        int filteredCount = results. findAll {it.type == "PUB" }.size() 
+        filteredCount.shouldEqual expectedPubsCount
     }
     
     and "The response should include ${expectedSubwayStationsCount} subway stations", {
-        Assert.assertTrue(responseEntity.hasBody())
-        Assert.assertNotNull(responseEntity.getBody())
+        responseEntity.hasBody().shouldBe true
+        responseEntity.getBody().shouldNotBeNull
         results = responseEntity.getBody()
-        Assert.assertEquals(expectedSubwayStationsCount, results. findAll {it.type == "SUBWAY_STATION" }.size())
+        int filteredCount = results. findAll {it.type == "SUBWAY_STATION" }.size() 
+        filteredCount.shouldEqual expectedSubwayStationsCount
     }
     
     
