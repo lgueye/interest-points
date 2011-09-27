@@ -1,11 +1,11 @@
 /*
  *
  */
-package org.diveintojee.poc.domain.service;
+package org.diveintojee.poc.interestpoints.domain.service;
 
 import java.util.List;
 
-import org.diveintojee.poc.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
 
 /**
  * @author louis.gueye@gmail.com

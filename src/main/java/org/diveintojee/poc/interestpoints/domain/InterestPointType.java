@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.diveintojee.poc.domain;
+package org.diveintojee.poc.interestpoints.domain;
 
 /**
  * @author louis.gueye@gmail.com

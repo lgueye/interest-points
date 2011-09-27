@@ -1,15 +1,15 @@
 /*
  *
  */
-package org.diveintojee.poc.service;
+package org.diveintojee.poc.interestpoints.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.diveintojee.poc.domain.InterestPoint;
-import org.diveintojee.poc.domain.InterestPointType;
-import org.diveintojee.poc.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.InterestPointType;
+import org.diveintojee.poc.interestpoints.domain.service.InterestPointsService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class InterestPointsServiceImpl implements InterestPointsService {
 
     /**
-     * @see org.diveintojee.poc.domain.service.InterestPointsService#findByExample(org.diveintojee.poc.domain.InterestPoint)
+     * @see org.diveintojee.poc.interestpoints.domain.service.InterestPointsService#findByExample(org.diveintojee.poc.interestpoints.domain.InterestPoint)
      */
     @Override
     public List<InterestPoint> findByExample(final InterestPoint criteria) {

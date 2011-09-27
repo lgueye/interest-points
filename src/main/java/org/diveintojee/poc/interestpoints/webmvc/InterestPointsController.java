@@ -1,12 +1,12 @@
 /*
  *
  */
-package org.diveintojee.poc.webmvc;
+package org.diveintojee.poc.interestpoints.webmvc;
 
 import java.util.List;
 
-import org.diveintojee.poc.domain.InterestPoint;
-import org.diveintojee.poc.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.service.InterestPointsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

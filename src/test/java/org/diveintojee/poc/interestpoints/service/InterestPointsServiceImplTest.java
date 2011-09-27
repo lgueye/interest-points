@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.diveintojee.poc.service;
+package org.diveintojee.poc.interestpoints.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,9 +9,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.diveintojee.poc.domain.InterestPoint;
-import org.diveintojee.poc.domain.InterestPointType;
-import org.diveintojee.poc.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.InterestPointType;
+import org.diveintojee.poc.interestpoints.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.service.InterestPointsServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class InterestPointsServiceImplTest {
 
     /**
      * Test method for
-     * {@link org.diveintojee.poc.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.domain.InterestPoint)}
+     * {@link org.diveintojee.poc.interestpoints.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.interestpoints.domain.InterestPoint)}
      * .
      */
     @Test
@@ -50,7 +51,7 @@ public class InterestPointsServiceImplTest {
 
     /**
      * Test method for
-     * {@link org.diveintojee.poc.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.domain.InterestPoint)}
+     * {@link org.diveintojee.poc.interestpoints.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.interestpoints.domain.InterestPoint)}
      * .
      */
     @Test
@@ -82,7 +83,7 @@ public class InterestPointsServiceImplTest {
 
     /**
      * Test method for
-     * {@link org.diveintojee.poc.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.domain.InterestPoint)}
+     * {@link org.diveintojee.poc.interestpoints.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.interestpoints.domain.InterestPoint)}
      * .
      */
     @Test
@@ -114,7 +115,7 @@ public class InterestPointsServiceImplTest {
 
     /**
      * Test method for
-     * {@link org.diveintojee.poc.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.domain.InterestPoint)}
+     * {@link org.diveintojee.poc.interestpoints.service.InterestPointsServiceImpl#findByExample(org.diveintojee.poc.interestpoints.domain.InterestPoint)}
      * .
      */
     @Test

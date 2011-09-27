@@ -1,16 +1,16 @@
 /*
  *
  */
-package org.diveintojee.poc.service;
+package org.diveintojee.poc.interestpoints.service;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.diveintojee.poc.domain.Address;
-import org.diveintojee.poc.domain.InterestPoint;
-import org.diveintojee.poc.domain.InterestPointType;
+import org.diveintojee.poc.interestpoints.domain.Address;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.InterestPointType;
 
 /**
  * @author louis.gueye@gmail.com

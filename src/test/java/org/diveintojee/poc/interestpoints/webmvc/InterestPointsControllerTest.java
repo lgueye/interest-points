@@ -1,12 +1,13 @@
 /*
  *
  */
-package org.diveintojee.poc.webmvc;
+package org.diveintojee.poc.interestpoints.webmvc;
 
 import static org.mockito.Mockito.verify;
 
-import org.diveintojee.poc.domain.InterestPoint;
-import org.diveintojee.poc.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
+import org.diveintojee.poc.interestpoints.domain.service.InterestPointsService;
+import org.diveintojee.poc.interestpoints.webmvc.InterestPointsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,7 +28,7 @@ public class InterestPointsControllerTest {
 
     /**
      * Test method for
-     * {@link org.diveintojee.poc.webmvc.InterestPointsController#find(org.diveintojee.poc.domain.InterestPoint)}.
+     * {@link org.diveintojee.poc.interestpoints.webmvc.InterestPointsController#find(org.diveintojee.poc.interestpoints.domain.InterestPoint)}.
      */
     @Test
     public void findShouldInvokeService() {

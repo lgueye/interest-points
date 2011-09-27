@@ -1,4 +1,4 @@
-import org.diveintojee.poc.domain.InterestPoint
+import org.diveintojee.poc.interestpoints.domain.InterestPoint;
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

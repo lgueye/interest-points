@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.diveintojee.poc.domain;
+package org.diveintojee.poc.interestpoints.domain;
 
 import java.io.Serializable;
 
