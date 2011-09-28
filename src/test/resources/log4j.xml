@@ -26,6 +26,7 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
 	<logger name="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<level value="debug" />
 	</logger>
@@ -38,6 +39,9 @@
 		<level value="debug" />
 	</logger>
  -->
+	<logger name="org.jbehave">
+		<level value="debug" />
+	</logger>
 
 	<!-- Root Logger -->
 	<root>

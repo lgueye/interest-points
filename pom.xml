@@ -34,7 +34,7 @@
 		<jetty.version>6.1.26</jetty.version>
 		<easyb.version>1.2</easyb.version>
 		<groovy.version>1.8.1</groovy.version>
-		<jbehave.core.version>3.5</jbehave.core.version>
+		<jbehave.core.version>3.5.1</jbehave.core.version>
 
 		<!-- BUILD -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,7 +51,7 @@
 		<hibernate3-maven-plugin.version>2.2</hibernate3-maven-plugin.version>
 		<cobertura-maven-plugin.version>2.5.1</cobertura-maven-plugin.version>
 		<cargo-maven2-plugin.version>1.1.2</cargo-maven2-plugin.version>
-		<jbehave.stories>src/test/jbehave/stories</jbehave.stories>
+		<jbehave.stories>src/test/jbehave/stories/*.story</jbehave.stories>
 
 	</properties>
 
@@ -194,6 +194,22 @@
 				<version>${groovy.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jbehave</groupId>
+				<artifactId>jbehave-spring</artifactId>
+				<version>${jbehave.core.version}</version>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-test</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -289,6 +305,11 @@
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-spring</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -464,34 +485,62 @@
 					<groupId>org.jbehave</groupId>
 					<artifactId>jbehave-maven-plugin</artifactId>
 					<version>${jbehave.core.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>log4j</groupId>
+							<artifactId>log4j</artifactId>
+							<version>${log4j.version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>com.sun.jdmk</groupId>
+									<artifactId>jmxtools</artifactId>
+								</exclusion>
+								<exclusion>
+									<groupId>com.sun.jmx</groupId>
+									<artifactId>jmxri</artifactId>
+								</exclusion>
+								<exclusion>
+									<groupId>javax.jms</groupId>
+									<artifactId>jms</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-context</artifactId>
+							<version>${spring.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-test</artifactId>
+							<version>${spring.version}</version>
+						</dependency>
+
+						<dependency>
+							<groupId>org.jbehave</groupId>
+							<artifactId>jbehave-spring</artifactId>
+							<version>${jbehave.core.version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-context</artifactId>
+								</exclusion>
+								<exclusion>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-test</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+					</dependencies>
 					<executions>
 						<execution>
-							<id>embeddable-stories</id>
+							<id>run-stories-with-annotated-embedder</id>
 							<phase>integration-test</phase>
 							<configuration>
+								<scope>test</scope>
+								<annotatedEmbedderRunnerClass>org.jbehave.core.junit.spring.SpringAnnotatedEmbedderRunner</annotatedEmbedderRunnerClass>
 								<includes>
-									<include>${jbehave.stories}</include>
-								</includes>
-								<excludes />
-								<generateViewAfterStories>true</generateViewAfterStories>
-								<ignoreFailureInStories>false</ignoreFailureInStories>
-								<ignoreFailureInView>false</ignoreFailureInView>
-								<threads>2</threads>
-								<skip>false</skip>
-								<metaFilters>
-									<metaFilter>${meta.filter}</metaFilter>
-								</metaFilters>
-							</configuration>
-							<goals>
-								<goal>run-stories-as-embeddables</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>map-stories</id>
-							<phase>integration-test</phase>
-							<configuration>
-								<includes>
-									<include>**/*StoryMaps.java</include>
+									<include>**/stories/*Stories.java</include>
 								</includes>
 								<metaFilters>
 									<metaFilter>+category *</metaFilter>
@@ -499,19 +548,7 @@
 								</metaFilters>
 							</configuration>
 							<goals>
-								<goal>map-stories-as-embeddables</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>report-stepdocs</id>
-							<phase>integration-test</phase>
-							<configuration>
-								<includes>
-									<include>${jbehave.stories}</include>
-								</includes>
-							</configuration>
-							<goals>
-								<goal>report-stepdocs-as-embeddables</goal>
+								<goal>run-stories-with-annotated-embedder</goal>
 							</goals>
 						</execution>
 					</executions>
