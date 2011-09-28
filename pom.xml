@@ -26,6 +26,7 @@
 		<jackson-mapper-asl.version>1.8.5</jackson-mapper-asl.version>
 		<commons-httpclient.version>3.1</commons-httpclient.version>
 		<servlet-api.version>2.5</servlet-api.version>
+		<xstream.version>1.4.1</xstream.version>
 
 		<!-- TEST -->
 		<junit.version>4.9</junit.version>
@@ -149,6 +150,11 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
 			</dependency>
 
 			<!-- TEST -->
@@ -309,7 +315,10 @@
 			<groupId>org.jbehave</groupId>
 			<artifactId>jbehave-spring</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

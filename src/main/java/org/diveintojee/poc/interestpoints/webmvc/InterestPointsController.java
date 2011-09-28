@@ -5,6 +5,7 @@ package org.diveintojee.poc.interestpoints.webmvc;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.diveintojee.poc.interestpoints.domain.InterestPoint;
 import org.diveintojee.poc.interestpoints.domain.service.InterestPointsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,31 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class InterestPointsController {
 
-    @Autowired
-    private InterestPointsService interestPointsService;
+	@Autowired
+	private InterestPointsService	interestPointsService;
 
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody
-    List<InterestPoint> find(final InterestPoint interestPoint) {
+	/**
+	 * @param interestPoint
+	 * @return Until <a
+	 *         href="https://jira.springsource.org/browse/SPR-7023">this</a>
+	 *         issue is not fixed, return array instead of collections.<br/>
+	 *         Allows for proper collection mapping
+	 */
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	InterestPoint[] find(final InterestPoint interestPoint) {
 
-        final List<InterestPoint> results = interestPointsService.findByExample(interestPoint);
+		final List<InterestPoint> results = this.interestPointsService.findByExample(interestPoint);
 
-        return results;
+		if (CollectionUtils.isEmpty(results)) return new InterestPoint[] {};
 
-    }
+		InterestPoint[] array = new InterestPoint[CollectionUtils.size(results)];
+
+		for (int i = 0; i < results.size(); i++)
+			array[i] = results.get(i);
+
+		return array;
+
+	}
 }

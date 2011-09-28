@@ -22,20 +22,20 @@ import org.junit.runner.RunWith;
  */
 @RunWith(SpringAnnotatedEmbedderRunner.class)
 @Configure(parameterConverters = { ParameterConverters.EnumConverter.class, ParameterConverters.DateConverter.class })
-@UsingEmbedder(embedder = Embedder.class, generateViewAfterStories = true, ignoreFailureInStories = false, ignoreFailureInView = false)
+@UsingEmbedder(embedder = Embedder.class, generateViewAfterStories = true, ignoreFailureInStories = false, ignoreFailureInView = false, threads = 2)
 @UsingSpring(resources = { "jbehave-context.xml", "stories-context.xml" })
 public class InterestPointsStories extends InjectableEmbedder {
 
-    /**
-     * @see org.jbehave.core.Embeddable#run()
-     */
-    @Test
-    @Override
-    public void run() throws Throwable {
-        injectedEmbedder().runStoriesAsPaths(storyPaths());
-    }
+	/**
+	 * @see org.jbehave.core.Embeddable#run()
+	 */
+	@Test
+	@Override
+	public void run() throws Throwable {
+		injectedEmbedder().runStoriesAsPaths(storyPaths());
+	}
 
-    protected List<String> storyPaths() {
-        return new StoryFinder().findPaths("src/main/resources", Arrays.asList("**/*.story"), Arrays.asList(""));
-    }
+	protected List<String> storyPaths() {
+		return new StoryFinder().findPaths("src/main/resources", Arrays.asList("**/*.story"), Arrays.asList(""));
+	}
 }
