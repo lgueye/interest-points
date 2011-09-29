@@ -35,184 +35,194 @@ import org.springframework.web.client.RestTemplate;
 @Scenario
 public class FindingInterestPointsAroundMeShouldSucceedSteps {
 
-	private final HttpHeaders				headers	= new HttpHeaders();
-	private URI								uri;
-	private ResponseEntity<InterestPoint[]>	responseEntity;
-	private InterestPoint[]					results;
-	private String							streetAddress;
-	private String							postalCode;
-	private String							city;
-	private String							countryCode;
+    private final HttpHeaders headers = new HttpHeaders();
+    private URI uri;
+    private ResponseEntity<InterestPoint[]> responseEntity;
+    private InterestPoint[] results;
+    private String streetAddress;
+    private String postalCode;
+    private String city;
+    private String countryCode;
 
-	@Autowired
-	private RestTemplate					restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
-	@Then("The response should include $expectedPubsCount pubs")
-	public void ensureExpectedPubsCount(final int expectedPubsCount) {
+    @Then("The response should include $expectedPubsCount pubs")
+    public void ensureExpectedPubsCount(final int expectedPubsCount) {
 
-		Assert.assertNotNull(this.results);
+        Assert.assertNotNull(results);
 
-		final int countMatches = CollectionUtils.countMatches(Arrays.asList(this.results), new Predicate() {
+        final int countMatches = CollectionUtils.countMatches(Arrays.asList(results), new Predicate() {
 
-			@Override
-			public boolean evaluate(final Object object) {
+            @Override
+            public boolean evaluate(final Object object) {
 
-				if (object == null) return false;
+                if (object == null)
+                    return false;
 
-				if (!(object instanceof InterestPoint)) return false;
+                if (!(object instanceof InterestPoint))
+                    return false;
 
-				return InterestPointType.PUB.equals(((InterestPoint) object).getType());
+                return InterestPointType.PUB.equals(((InterestPoint) object).getType());
 
-			}
+            }
 
-		});
+        });
 
-		Assert.assertEquals(expectedPubsCount, countMatches);
+        Assert.assertEquals(expectedPubsCount, countMatches);
 
-	}
+    }
 
-	@Then("The response should include $expectedRestaurantsCount restaurants")
-	public void ensureExpectedRestaurantsCount(final int expectedRestaurantsCount) {
+    @Then("The response should include $expectedRestaurantsCount restaurants")
+    public void ensureExpectedRestaurantsCount(final int expectedRestaurantsCount) {
 
-		Assert.assertNotNull(this.results);
+        Assert.assertNotNull(results);
 
-		final int countMatches = CollectionUtils.countMatches(Arrays.asList(this.results), new Predicate() {
+        final int countMatches = CollectionUtils.countMatches(Arrays.asList(results), new Predicate() {
 
-			@Override
-			public boolean evaluate(final Object object) {
+            @Override
+            public boolean evaluate(final Object object) {
 
-				if (object == null) return false;
+                if (object == null)
+                    return false;
 
-				if (!(object instanceof InterestPoint)) return false;
+                if (!(object instanceof InterestPoint))
+                    return false;
 
-				return InterestPointType.RESTAURANT == ((InterestPoint) object).getType();
+                return InterestPointType.RESTAURANT == ((InterestPoint) object).getType();
 
-			}
+            }
 
-		});
+        });
 
-		Assert.assertEquals(expectedRestaurantsCount, countMatches);
+        Assert.assertEquals(expectedRestaurantsCount, countMatches);
 
-	}
+    }
 
-	@Then("The response should include $expectedResultsCount interest points")
-	public void ensureExpectedResultsCount(final int expectedResultsCount) {
-		Assert.assertNotNull(this.responseEntity);
-		Assert.assertTrue(this.responseEntity.hasBody());
-		this.results = this.responseEntity.getBody();
-		Assert.assertNotNull(this.results);
-		Assert.assertEquals(expectedResultsCount, this.results.length);
-	}
+    @Then("The response should include $expectedResultsCount interest points")
+    public void ensureExpectedResultsCount(final int expectedResultsCount) {
+        Assert.assertNotNull(responseEntity);
+        Assert.assertTrue(responseEntity.hasBody());
+        results = responseEntity.getBody();
+        Assert.assertNotNull(results);
+        Assert.assertEquals(expectedResultsCount, results.length);
+    }
 
-	@Then("The response should include $expectedSubwayStationsCount subway stations")
-	public void ensureExpectedSubwayStationsCount(final int expectedSubwayStationsCount) {
+    @Then("The response should include $expectedSubwayStationsCount subway stations")
+    public void ensureExpectedSubwayStationsCount(final int expectedSubwayStationsCount) {
 
-		final int countMatches = CollectionUtils.countMatches(Arrays.asList(this.results), new Predicate() {
+        final int countMatches = CollectionUtils.countMatches(Arrays.asList(results), new Predicate() {
 
-			@Override
-			public boolean evaluate(final Object object) {
+            @Override
+            public boolean evaluate(final Object object) {
 
-				if (object == null) return false;
+                if (object == null)
+                    return false;
 
-				if (!(object instanceof InterestPoint)) return false;
+                if (!(object instanceof InterestPoint))
+                    return false;
 
-				return InterestPointType.SUBWAY_STATION.equals(((InterestPoint) object).getType());
+                return InterestPointType.SUBWAY_STATION.equals(((InterestPoint) object).getType());
 
-			}
+            }
 
-		});
+        });
 
-		Assert.assertEquals(expectedSubwayStationsCount, countMatches);
+        Assert.assertEquals(expectedSubwayStationsCount, countMatches);
 
-	}
+    }
 
-	@Then("I should get a successfull response")
-	public void ensureSuccessfullResponse() {
-		Assert.assertNotNull(this.responseEntity);
-		Assert.assertNotNull(this.responseEntity.getStatusCode());
-		Assert.assertEquals(HttpStatus.OK.value(), this.responseEntity.getStatusCode().value());
-	}
+    @Then("I should get a successfull response")
+    public void ensureSuccessfullResponse() {
+        Assert.assertNotNull(responseEntity);
+        Assert.assertNotNull(responseEntity.getStatusCode());
+        Assert.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+    }
 
-	/**
-	 * @param location
-	 * @return
-	 */
-	private String extractCity(final String location) {
+    /**
+     * @param location
+     * @return
+     */
+    private String extractCity(final String location) {
 
-		if (StringUtils.isEmpty(location)) return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(location))
+            return StringUtils.EMPTY;
 
-		final String right = location.split(",")[1];
+        final String right = location.split(",")[1];
 
-		if (StringUtils.isEmpty(right)) return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(right))
+            return StringUtils.EMPTY;
 
-		return right.split(" ")[1];
+        return right.split(" ")[1];
 
-	}
+    }
 
-	/**
-	 * @param location
-	 * @return
-	 */
-	private String extractPostalCode(final String location) {
+    /**
+     * @param location
+     * @return
+     */
+    private String extractPostalCode(final String location) {
 
-		if (StringUtils.isEmpty(location)) return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(location))
+            return StringUtils.EMPTY;
 
-		final String right = location.split(",")[1];
+        final String right = location.split(",")[1];
 
-		if (StringUtils.isEmpty(right)) return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(right))
+            return StringUtils.EMPTY;
 
-		return right.split(" ")[0];
+        return right.split(" ")[0];
 
-	}
+    }
 
-	/**
-	 * @param location
-	 * @return
-	 */
-	private String extractStreetAddress(final String location) {
+    /**
+     * @param location
+     * @return
+     */
+    private String extractStreetAddress(final String location) {
 
-		if (StringUtils.isEmpty(location)) return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(location))
+            return StringUtils.EMPTY;
 
-		return location.split(",")[0].trim();
+        return location.split(",")[0].trim();
 
-	}
+    }
 
-	@Given("I provide the location $location")
-	public void provideLocation(final String location) {
-		this.streetAddress = extractStreetAddress(location);
-		this.city = extractCity(location);
-		this.postalCode = extractPostalCode(location);
-		this.countryCode = "fr";
-	}
+    @Given("I provide the location $location")
+    public void provideLocation(final String location) {
+        streetAddress = extractStreetAddress(location);
+        city = extractCity(location);
+        postalCode = extractPostalCode(location);
+        countryCode = "fr";
+    }
 
-	@Given("I send $requestContentType")
-	public void provideRequestContentType(final String requestContentType) {
-		this.headers.setContentType(MediaType.valueOf(requestContentType));
-	}
+    @Given("I send $requestContentType")
+    public void provideRequestContentType(final String requestContentType) {
 
-	@Given("I receive $requestContentType")
-	public void provideResponseContentType(final String responseContentType) {
-		this.headers.setAccept(Arrays.asList(MediaType.valueOf(responseContentType)));
-		this.headers.setAcceptCharset(Arrays.asList(MappingJacksonHttpMessageConverter.DEFAULT_CHARSET));
-	}
+        headers.setContentType(MediaType.valueOf(requestContentType));
+    }
 
-	@Given("I am a valid system user")
-	public void provideValidUser() {
-	}
+    @Given("I receive $requestContentType")
+    public void provideResponseContentType(final String responseContentType) {
+        headers.setAccept(Arrays.asList(MediaType.valueOf(responseContentType)));
+        headers.setAcceptCharset(Arrays.asList(MappingJacksonHttpMessageConverter.DEFAULT_CHARSET));
+    }
 
-	@When("I ask for interest points around that location")
-	public void requestInterestPointsAroundLocation() throws UnsupportedEncodingException {
-		final StringBuilder queryString = new StringBuilder("http://localhost:9090/interest-points/find?");
-		queryString.append("address.city=" + URLEncoder.encode(this.city, "UTF-8"));
-		queryString.append("&");
-		queryString.append("address.countryCode=" + URLEncoder.encode(this.countryCode, "UTF-8"));
-		queryString.append("&");
-		queryString.append("address.postalCode=" + URLEncoder.encode(this.postalCode, "UTF-8"));
-		queryString.append("&");
-		queryString.append("address.streetAddress=" + URLEncoder.encode(this.streetAddress, "UTF-8"));
-		this.uri = URI.create(queryString.toString());
-		final HttpEntity<InterestPoint> requestEntity = new HttpEntity<InterestPoint>(this.headers);
-		this.responseEntity = this.restTemplate
-				.exchange(this.uri, HttpMethod.GET, requestEntity, InterestPoint[].class);
-	}
+    @Given("I am a valid system user")
+    public void provideValidUser() {}
+
+    @When("I ask for interest points around that location")
+    public void requestInterestPointsAroundLocation() throws UnsupportedEncodingException {
+        final StringBuilder queryString = new StringBuilder("http://localhost:9090/interest-points/find?");
+        queryString.append("address.city=" + URLEncoder.encode(city, "UTF-8"));
+        queryString.append("&");
+        queryString.append("address.countryCode=" + URLEncoder.encode(countryCode, "UTF-8"));
+        queryString.append("&");
+        queryString.append("address.postalCode=" + URLEncoder.encode(postalCode, "UTF-8"));
+        queryString.append("&");
+        queryString.append("address.streetAddress=" + URLEncoder.encode(streetAddress, "UTF-8"));
+        uri = URI.create(queryString.toString());
+        final HttpEntity<InterestPoint> requestEntity = new HttpEntity<InterestPoint>(headers);
+        responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, InterestPoint[].class);
+    }
 }

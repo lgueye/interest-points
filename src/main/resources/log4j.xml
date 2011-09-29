@@ -12,7 +12,7 @@
 
 	<!-- Application Loggers -->
 	<logger name="org.diveintojee.poc">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="org.springframework.web">

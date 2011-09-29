@@ -8,6 +8,28 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="httpClientFactory" />
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+					<property name="marshaller" ref="jaxbMarshaller" />
+					<property name="unmarshaller" ref="jaxbMarshaller" />
+				</bean>
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter" />
+				<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="httpClientFactory"
@@ -23,5 +45,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="connectionManagerClass"
 			value="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager" />
 	</bean>
+
+	<bean id="jaxbMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
 
 </beans>
