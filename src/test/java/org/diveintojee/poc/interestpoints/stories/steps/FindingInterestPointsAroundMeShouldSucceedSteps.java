@@ -12,11 +12,13 @@ import junit.framework.Assert;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.diveintojee.poc.interestpoints.domain.InterestPoint;
 import org.diveintojee.poc.interestpoints.domain.InterestPointType;
 import org.diveintojee.poc.interestpoints.stories.Scenario;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ import org.springframework.web.client.RestTemplate;
 public class FindingInterestPointsAroundMeShouldSucceedSteps {
 
     private final HttpHeaders headers = new HttpHeaders();
+    private final String endPoint = "http://localhost:9090/interest-points/find";
     private URI uri;
     private ResponseEntity<InterestPoint[]> responseEntity;
     private InterestPoint[] results;
@@ -48,7 +51,7 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
     private RestTemplate restTemplate;
 
     @Then("The response should include $expectedPubsCount pubs")
-    public void ensureExpectedPubsCount(final int expectedPubsCount) {
+    public void ensureExpectedPubsCount(@Named("expectedPubsCount") final int expectedPubsCount) {
 
         Assert.assertNotNull(results);
 
@@ -74,7 +77,7 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
     }
 
     @Then("The response should include $expectedRestaurantsCount restaurants")
-    public void ensureExpectedRestaurantsCount(final int expectedRestaurantsCount) {
+    public void ensureExpectedRestaurantsCount(@Named("expectedRestaurantsCount") final int expectedRestaurantsCount) {
 
         Assert.assertNotNull(results);
 
@@ -100,7 +103,7 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
     }
 
     @Then("The response should include $expectedResultsCount interest points")
-    public void ensureExpectedResultsCount(final int expectedResultsCount) {
+    public void ensureExpectedResultsCount(@Named("expectedResultsCount") final int expectedResultsCount) {
         Assert.assertNotNull(responseEntity);
         Assert.assertTrue(responseEntity.hasBody());
         results = responseEntity.getBody();
@@ -109,7 +112,8 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
     }
 
     @Then("The response should include $expectedSubwayStationsCount subway stations")
-    public void ensureExpectedSubwayStationsCount(final int expectedSubwayStationsCount) {
+    public void ensureExpectedSubwayStationsCount(
+            @Named("expectedSubwayStationsCount") final int expectedSubwayStationsCount) {
 
         final int countMatches = CollectionUtils.countMatches(Arrays.asList(results), new Predicate() {
 
@@ -143,17 +147,26 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
      * @param location
      * @return
      */
-    private String extractCity(final String location) {
+    String extractCity(final String location) {
 
-        if (StringUtils.isEmpty(location))
+        String[] split = null;
+
+        split = splitInTwoParts(location, ",");
+
+        if (ArrayUtils.isEmpty(split))
             return StringUtils.EMPTY;
 
-        final String right = location.split(",")[1];
+        final String right = split[1];
 
         if (StringUtils.isEmpty(right))
             return StringUtils.EMPTY;
 
-        return right.split(" ")[1];
+        split = splitInTwoParts(right, " ");
+
+        if (ArrayUtils.isEmpty(split))
+            return StringUtils.EMPTY;
+
+        return split[1];
 
     }
 
@@ -161,17 +174,26 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
      * @param location
      * @return
      */
-    private String extractPostalCode(final String location) {
+    String extractPostalCode(final String location) {
 
-        if (StringUtils.isEmpty(location))
+        String[] split = null;
+
+        split = splitInTwoParts(location, ",");
+
+        if (ArrayUtils.isEmpty(split))
             return StringUtils.EMPTY;
 
-        final String right = location.split(",")[1];
+        final String right = split[1];
 
         if (StringUtils.isEmpty(right))
             return StringUtils.EMPTY;
 
-        return right.split(" ")[0];
+        split = splitInTwoParts(right, " ");
+
+        if (ArrayUtils.isEmpty(split))
+            return StringUtils.EMPTY;
+
+        return split[0];
 
     }
 
@@ -179,12 +201,16 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
      * @param location
      * @return
      */
-    private String extractStreetAddress(final String location) {
+    String extractStreetAddress(final String location) {
 
-        if (StringUtils.isEmpty(location))
+        String[] split = null;
+
+        split = splitInTwoParts(location, ",");
+
+        if (ArrayUtils.isEmpty(split))
             return StringUtils.EMPTY;
 
-        return location.split(",")[0].trim();
+        return split[0].trim();
 
     }
 
@@ -197,13 +223,13 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
     }
 
     @Given("I send $requestContentType")
-    public void provideRequestContentType(final String requestContentType) {
+    public void provideRequestContentType(@Named("requestContentType") final String requestContentType) {
 
         headers.setContentType(MediaType.valueOf(requestContentType));
     }
 
-    @Given("I receive $requestContentType")
-    public void provideResponseContentType(final String responseContentType) {
+    @Given("I receive <response-contenttype>")
+    public void provideResponseContentType(@Named("response-contenttype") final String responseContentType) {
         headers.setAccept(Arrays.asList(MediaType.valueOf(responseContentType)));
         headers.setAcceptCharset(Arrays.asList(MappingJacksonHttpMessageConverter.DEFAULT_CHARSET));
     }
@@ -213,7 +239,8 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
 
     @When("I ask for interest points around that location")
     public void requestInterestPointsAroundLocation() throws UnsupportedEncodingException {
-        final StringBuilder queryString = new StringBuilder("http://localhost:9090/interest-points/find?");
+        final StringBuilder queryString = new StringBuilder(endPoint);
+        queryString.append("?");
         queryString.append("address.city=" + URLEncoder.encode(city, "UTF-8"));
         queryString.append("&");
         queryString.append("address.countryCode=" + URLEncoder.encode(countryCode, "UTF-8"));
@@ -224,5 +251,26 @@ public class FindingInterestPointsAroundMeShouldSucceedSteps {
         uri = URI.create(queryString.toString());
         final HttpEntity<InterestPoint> requestEntity = new HttpEntity<InterestPoint>(headers);
         responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, InterestPoint[].class);
+    }
+
+    private String[] splitInTwoParts(final String string, final String pattern) {
+
+        if (StringUtils.isEmpty(string))
+            return null;
+
+        if (StringUtils.isEmpty(pattern))
+            return null;
+
+        final String[] split = string.trim().split(pattern);
+
+        if (ArrayUtils.isEmpty(split))
+            return null;
+
+        // If pattern not found split returns same string in array
+        if (split.length != 2)
+            return null;
+
+        return split;
+
     }
 }
