@@ -529,7 +529,6 @@
 							<phase>integration-test</phase>
 							<configuration>
 								<scope>test</scope>
-								<annotatedEmbedderRunnerClass>org.jbehave.core.junit.spring.SpringAnnotatedEmbedderRunner</annotatedEmbedderRunnerClass>
 								<includes>
 									<include>**/stories/*Stories.java</include>
 								</includes>
