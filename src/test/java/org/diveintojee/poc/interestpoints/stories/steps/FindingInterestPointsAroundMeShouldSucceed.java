@@ -35,7 +35,7 @@ import org.springframework.web.client.RestTemplate;
  * @author louis.gueye@gmail.com
  */
 @Component
-public class FindingInterestPointsAroundMeShouldSucceedSteps {
+public class FindingInterestPointsAroundMeShouldSucceed {
 
 	private final HttpHeaders				headers		= new HttpHeaders();
 	private final String					endPoint	= "http://localhost:9090/interest-points/find";

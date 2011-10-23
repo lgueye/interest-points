@@ -32,9 +32,7 @@
 		<junit.version>4.9</junit.version>
 		<mockito.version>1.8.5</mockito.version>
 		<jetty.version>6.1.26</jetty.version>
-		<easyb.version>1.2</easyb.version>
-		<groovy.version>1.8.1</groovy.version>
-		<jbehave.core.version>3.5.1</jbehave.core.version>
+		<jbehave.version>3.5.1</jbehave.version>
 
 		<!-- BUILD -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,7 +42,6 @@
 		<maven-resources-plugin.version>2.5</maven-resources-plugin.version>
 		<maven-site-plugin.version>3.0</maven-site-plugin.version>
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-		<maven-failsafe-plugin.version>2.9</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
 		<maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
@@ -185,15 +182,9 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.codehaus.groovy</groupId>
-				<artifactId>groovy-all</artifactId>
-				<version>${groovy.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.jbehave</groupId>
 				<artifactId>jbehave-spring</artifactId>
-				<version>${jbehave.core.version}</version>
+				<version>${jbehave.version}</version>
 				<scope>test</scope>
 				<exclusions>
 					<exclusion>
@@ -290,10 +281,6 @@
 			<artifactId>commons-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.jbehave</groupId>
 			<artifactId>jbehave-spring</artifactId>
 		</dependency>
@@ -344,30 +331,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven-failsafe-plugin.version}</version>
-					<configuration>
-						<excludes>
-							<exclude>**/Abstract*</exclude>
-						</excludes>
-					</configuration>
-					<executions>
-						<execution>
-							<id>integration-test</id>
-							<goals>
-								<goal>integration-test</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>verify</id>
-							<goals>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven-surefire-plugin.version}</version>
 					<configuration>
@@ -389,7 +352,7 @@
 						</archive>
 					</configuration>
 				</plugin>
-				<!-- WARNING / Make sure you start jetty before running easyb tests -->
+				<!-- WARNING / Make sure you start jetty before running any jetty dependent tests -->
 				<plugin>
 					<groupId>org.mortbay.jetty</groupId>
 					<artifactId>maven-jetty-plugin</artifactId>
@@ -451,31 +414,10 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- WARNING / Make sure you start jetty before running easyb tests
-				<plugin>
-					<groupId>org.easyb</groupId>
-					<artifactId>maven-easyb-plugin</artifactId>
-					<version>${easyb.version}</version>
-					<executions>
-						<execution>
-							<id>run-stories</id>
-							<phase>integration-test</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<easybTestDirectory>${basedir}/src/test/easyb/stories</easybTestDirectory>
-						<storyType>html</storyType>
-						<storyReport>${project.build.directory}/easyb/stories.html</storyReport>
-					</configuration>
-				</plugin>
- -->
 				<plugin>
 					<groupId>org.jbehave</groupId>
 					<artifactId>jbehave-maven-plugin</artifactId>
-					<version>${jbehave.core.version}</version>
+					<version>${jbehave.version}</version>
 					<dependencies>
 						<dependency>
 							<groupId>log4j</groupId>
@@ -510,7 +452,7 @@
 						<dependency>
 							<groupId>org.jbehave</groupId>
 							<artifactId>jbehave-spring</artifactId>
-							<version>${jbehave.core.version}</version>
+							<version>${jbehave.version}</version>
 							<exclusions>
 								<exclusion>
 									<groupId>org.springframework</groupId>
@@ -530,7 +472,7 @@
 							<configuration>
 								<scope>test</scope>
 								<includes>
-									<include>**/stories/*Stories.java</include>
+									<include>**/*Stories.java</include>
 								</includes>
 							</configuration>
 							<goals>
@@ -550,26 +492,7 @@
 		</plugins>
 
 	</build>
-
 	<profiles>
-	<!-- 
-		<profile>
-			<id>easyb</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>maven-jetty-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.easyb</groupId>
-						<artifactId>maven-easyb-plugin</artifactId>
-					</plugin>
-				</plugins>
-
-			</build>
-		</profile>
- -->		
 		<profile>
 			<id>jbehave</id>
 			<build>
